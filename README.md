@@ -114,6 +114,7 @@ dmesg | tail
 ### Device Macros & Globals
 
 <img width="912" height="520" alt="image" src="https://github.com/user-attachments/assets/0f64cb99-d54c-42f9-a15a-6f6b98077994" />
+
 * `DEVICE_NAME` → device node name (`/dev/led`)
 * `CLASS_NAME` → sysfs class name (`/sys/class/ledctl`)
 * `major_number` → dynamically assigned by kernel
@@ -123,6 +124,7 @@ dmesg | tail
 ### Write Operation
 
 <img width="1726" height="900" alt="image" src="https://github.com/user-attachments/assets/8e15c718-2b38-4798-b59a-d2258c8562ce" />
+
 * Uses `copy_from_user()` to read data
 * `1` → log "LED: ON"
 * `0` → log "LED: OFF"
@@ -133,6 +135,7 @@ In real hardware, GPIO control code would replace the `printk`.
 ### File Operations Table
 
 <img width="880" height="406" alt="image" src="https://github.com/user-attachments/assets/dfb99122-1495-4ab5-8da7-01a3f7db4e7f" />
+
 Defines supported operations (only `.write()` implemented). Example:
 ```bash
 echo 1 > /dev/led   # calls led_write()
@@ -141,10 +144,12 @@ echo 1 > /dev/led   # calls led_write()
 ### Module Initialization & Exit
 
 <img width="1710" height="1204" alt="image" src="https://github.com/user-attachments/assets/399e9605-378f-48c0-b386-354781c583a7" />
+
 * Registers character device
 * Creates sysfs class + `/dev/led`
 * Logs assigned major number
 <img width="1126" height="558" alt="image" src="https://github.com/user-attachments/assets/5d1468c3-34c5-4e34-beaa-3a857a603a12" />
+
 * Cleans up all resources on module unload
 
 ---
