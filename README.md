@@ -59,10 +59,16 @@ make -j$(nproc)
 
 ### 2. Build Kernel Module
 
+i used a text-based configuration tool for the linux kernel. this lets you enable, disable kernel features before building. this is the *linux-menuconfig*.
 ```bash
-cd driver
-make
+make linux-menuconfig
 ```
+using this command we enter the menuconfig. it takes somewhile the firdt time to build. we have to enable loadable module support to be able to load driver via *insmod*. i also enabled gpio support, enable charcter devices which is usefull for memory mappedd or port mapped i/o.the output is reflected in the .config file.
+running the make command will generate output images in your buildroot directory which contains 
+*rootfs.ext2
+*device tree blob
+*cross compiler
+*zimage
 
 ### 3. Deploy to RootFS
 
@@ -72,7 +78,7 @@ sudo cp led_gpio.ko /mnt/root/
 sudo umount /mnt
 ```
 
-### 4. Run on QEMU
+### 4. Run QEMU
 
 ```bash
 qemu-system-arm -M versatilepb \
@@ -104,17 +110,15 @@ Even though this is running in a virtual environment, good practices were follow
 * Module unloading removes all device nodes and frees kernel objects
 
 ---
+## Driver Code
 
+---
 ## Testing & Demo
 
 * **Toggle LED** by writing `1`/`0` to `/dev/led`
 * **Check kernel logs** using `dmesg` to see ON/OFF messages
-* Userspace C app demonstrates **automatic toggling every second**
-
-> Screenshots of kernel log output and QEMU terminal can be added here to make the demo more visual.
 
 ---
-
 ## Future Enhancements
 
 * Add **sysfs interface** for advanced control
